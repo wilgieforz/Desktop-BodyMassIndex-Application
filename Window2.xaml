@@ -1,0 +1,36 @@
+﻿<Window x:Class="BodyMassIndex.Window2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BodyMassIndex"
+        mc:Ignorable="d"
+        Title="Результат" Height="350" Width="400" ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen" Background="#FF212B34"         
+        BorderBrush="Silver" BorderThickness="1" WindowStyle="ToolWindow"  AllowDrop="True">
+    
+    <Grid>
+        <StackPanel Background="#FF212B34">
+            <Label x:Name="lblName" Content="Ваше имя: " HorizontalAlignment="Center"
+                   Margin="0, 15, 0, 0" FontSize="16" Foreground="Silver"></Label>
+            <Rectangle Fill="#FF95305D" Width="10" Height="10" Margin="-70 -30 230 0" />
+            <Label x:Name="lblAge" Content="Ваш возраст: " HorizontalAlignment="Center"
+                   Margin="0, 20, 0, 0" FontSize="16" Foreground="Silver"></Label>
+            <Rectangle Fill="#FFE19B2D" Width="10" Height="10" Margin="-70 -30 230 0" />
+            <Label x:Name="lblWeight" Content="Ваш вес: " HorizontalAlignment="Center"
+                   Margin="0, 20, 0, 0" FontSize="16" Foreground="Silver"></Label>
+            <Rectangle Fill="#FF4B926C" Width="10" Height="10" Margin="-70 -30 230 0" />
+            <Label x:Name="lblHeight" Content="Ваш рост: " HorizontalAlignment="Center"
+                   Margin="0, 20, 0, 0" FontSize="16" Foreground="Silver"></Label>
+            <Rectangle Fill="#FF5399A3" Width="10" Height="10" Margin="-70 -30 230 0" />
+            <Label x:Name="lblBMI" Content="Ваш ИМТ:" HorizontalAlignment="Center"
+                   Margin="0, 20 ,0 , 0" FontSize="16" Foreground="Silver"></Label>
+            <Rectangle Fill="#FF7450A3" Width="10" Height="10" Margin="-70 -30 230 0" />
+            <Button x:Name="BtnCloseFrm2" Content="Закрыть" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                    Width="100" Height="25" Foreground="Silver" Click="BtnCloseFrm2_Click"
+                    HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="20" FontFamily="Century Gothic"
+                    FontWeight="Bold"/>
+            <Rectangle Fill="#FFB10A0A" Width="10" Height="10" Margin="-70 -65 230 0" />
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,15 @@
+D:\Microsoft Visual Studio\MyProjects\BodyMassIndex\bin\Release\BodyMassIndex.exe.config
+D:\Microsoft Visual Studio\MyProjects\BodyMassIndex\bin\Release\BodyMassIndex.exe
+D:\Microsoft Visual Studio\MyProjects\BodyMassIndex\bin\Release\BodyMassIndex.pdb
+D:\Microsoft Visual Studio\MyProjects\BodyMassIndex\obj\Release\BodyMassIndex.csprojAssemblyReference.cache
+D:\Microsoft Visual Studio\MyProjects\BodyMassIndex\obj\Release\MainWindow.g.cs
+D:\Microsoft Visual Studio\MyProjects\BodyMassIndex\obj\Release\App.g.cs
+D:\Microsoft Visual Studio\MyProjects\BodyMassIndex\obj\Release\BodyMassIndex_MarkupCompile.cache
+D:\Microsoft Visual Studio\MyProjects\BodyMassIndex\obj\Release\BodyMassIndex_MarkupCompile.lref
+D:\Microsoft Visual Studio\MyProjects\BodyMassIndex\obj\Release\MainWindow.baml
+D:\Microsoft Visual Studio\MyProjects\BodyMassIndex\obj\Release\BodyMassIndex.g.resources
+D:\Microsoft Visual Studio\MyProjects\BodyMassIndex\obj\Release\BodyMassIndex.Properties.Resources.resources
+D:\Microsoft Visual Studio\MyProjects\BodyMassIndex\obj\Release\BodyMassIndex.csproj.GenerateResource.cache
+D:\Microsoft Visual Studio\MyProjects\BodyMassIndex\obj\Release\BodyMassIndex.csproj.CoreCompileInputs.cache
+D:\Microsoft Visual Studio\MyProjects\BodyMassIndex\obj\Release\BodyMassIndex.exe
+D:\Microsoft Visual Studio\MyProjects\BodyMassIndex\obj\Release\BodyMassIndex.pdb

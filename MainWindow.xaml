@@ -1,0 +1,2302 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BodyMassIndex"
+        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" x:Class="BodyMassIndex.MainWindow"
+        mc:Ignorable="d"
+        Title="Индекс массы тела" Height="480" Width="800" ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen" Icon="appleLogo.png">
+
+
+
+    <Window.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <LinearGradientBrush x:Key="ComboBox.Static.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FF212B34" Offset="0.0"/>
+            <GradientStop Color="#FF212B34" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.Static.Border" Color="#FF6A7780"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Editable.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Editable.Border" Color="#FFABADB3"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Background" Color="Transparent"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Border" Color="Transparent"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Glyph" Color="Silver"/>
+        <LinearGradientBrush x:Key="ComboBox.MouseOver.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#415a70" Offset="0.0"/>
+            <GradientStop Color="#415a70" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Border" Color="#FF7EB4EA"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Border" Color="#FF7EB4EA"/>
+        <LinearGradientBrush x:Key="ComboBox.MouseOver.Editable.Button.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFEBF4FC" Offset="0.0"/>
+            <GradientStop Color="#FFDCECFC" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Button.Border" Color="#FF7EB4EA"/>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Glyph" Color="#FF000000"/>
+        <LinearGradientBrush x:Key="ComboBox.Pressed.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFDAECFC" Offset="0.0"/>
+            <GradientStop Color="#FFC4E0FC" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Border" Color="#FF569DE5"/>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Border" Color="#FF569DE5"/>
+        <LinearGradientBrush x:Key="ComboBox.Pressed.Editable.Button.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFDAEBFC" Offset="0.0"/>
+            <GradientStop Color="#FFC4E0FC" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Button.Border" Color="#FF569DE5"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Glyph" Color="#FFBFBFBF"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Background" Color="#FFF0F0F0"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Border" Color="#FFD9D9D9"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Border" Color="#FFBFBFBF"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Background" Color="Transparent"/>
+        <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Border" Color="Transparent"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Glyph" Color="#FF606060"/>
+        <Style x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="ClickMode" Value="Press"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="templateRoot" BorderBrush="{StaticResource ComboBox.Static.Border}" BorderThickness="{TemplateBinding BorderThickness}" Background="{StaticResource ComboBox.Static.Background}" SnapsToDevicePixels="true">
+                            <Border x:Name="splitBorder" BorderBrush="Transparent" BorderThickness="1" HorizontalAlignment="Right" Margin="0" SnapsToDevicePixels="true" Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}">
+                                <Path x:Name="arrow" Data="F1 M 0,0 L 2.667,2.66665 L 5.3334,0 L 5.3334,-1.78168 L 2.6667,0.88501 L0,-1.78168 L0,0 Z" Fill="{StaticResource ComboBox.Static.Glyph}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center"/>
+                            </Border>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Static.Editable.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Static.Editable.Border}"/>
+                                <Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.Static.Editable.Button.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.Static.Editable.Button.Border}"/>
+                            </MultiDataTrigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" TargetName="arrow" Value="{StaticResource ComboBox.MouseOver.Glyph}"/>
+                            </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="false"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Border}"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Editable.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Editable.Border}"/>
+                                <Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.MouseOver.Editable.Button.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.MouseOver.Editable.Button.Border}"/>
+                            </MultiDataTrigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Fill" TargetName="arrow" Value="{StaticResource ComboBox.Pressed.Glyph}"/>
+                            </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="false"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Border}"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Editable.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Editable.Border}"/>
+                                <Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.Pressed.Editable.Button.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.Pressed.Editable.Button.Border}"/>
+                            </MultiDataTrigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Fill" TargetName="arrow" Value="{StaticResource ComboBox.Disabled.Glyph}"/>
+                            </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="false"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Border}"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Editable.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Editable.Border}"/>
+                                <Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.Disabled.Editable.Button.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.Disabled.Editable.Button.Border}"/>
+                            </MultiDataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="ComboBoxTemplate" TargetType="{x:Type ComboBox}">
+            <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" Width="0"/>
+                </Grid.ColumnDefinitions>
+                <Popup x:Name="PART_Popup" AllowsTransparency="true" Grid.ColumnSpan="2" IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Margin="1" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
+                    <Themes:SystemDropShadowChrome x:Name="shadow" Color="Transparent" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{Binding ActualWidth, ElementName=templateRoot}">
+                        <Border x:Name="dropDownBorder" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+                            <ScrollViewer x:Name="DropDownScrollViewer">
+                                <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
+                                    <Canvas x:Name="canvas" HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
+                                        <Rectangle x:Name="opaqueRect" Fill="{Binding Background, ElementName=dropDownBorder}" Height="{Binding ActualHeight, ElementName=dropDownBorder}" Width="{Binding ActualWidth, ElementName=dropDownBorder}"/>
+                                    </Canvas>
+                                    <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </Grid>
+                            </ScrollViewer>
+                        </Border>
+                    </Themes:SystemDropShadowChrome>
+                </Popup>
+                <ToggleButton x:Name="toggleButton" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ComboBoxToggleButton}"/>
+                <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Content="{TemplateBinding SelectionBoxItem}" ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" IsHitTestVisible="false" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="HasDropShadow" SourceName="PART_Popup" Value="true">
+                    <Setter Property="Margin" TargetName="shadow" Value="0,0,5,5"/>
+                    <Setter Property="Color" TargetName="shadow" Value="#71000000"/>
+                </Trigger>
+                <Trigger Property="HasItems" Value="false">
+                    <Setter Property="Height" TargetName="dropDownBorder" Value="95"/>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsGrouping" Value="true"/>
+                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                </MultiTrigger>
+                <Trigger Property="ScrollViewer.CanContentScroll" SourceName="DropDownScrollViewer" Value="false">
+                    <Setter Property="Canvas.Top" TargetName="opaqueRect" Value="{Binding VerticalOffset, ElementName=DropDownScrollViewer}"/>
+                    <Setter Property="Canvas.Left" TargetName="opaqueRect" Value="{Binding HorizontalOffset, ElementName=DropDownScrollViewer}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <SolidColorBrush x:Key="TextBox.Static.Background" Color="#FFFFFFFF"/>
+        <Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="AllowDrop" Value="true"/>
+            <Setter Property="MinWidth" Value="0"/>
+            <Setter Property="MinHeight" Value="0"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <ScrollViewer x:Name="PART_ContentHost" Background="Transparent" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="ComboBoxEditableTemplate" TargetType="{x:Type ComboBox}">
+            <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" Width="0"/>
+                </Grid.ColumnDefinitions>
+                <Popup x:Name="PART_Popup" AllowsTransparency="true" Grid.ColumnSpan="2" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
+                    <Themes:SystemDropShadowChrome x:Name="shadow" Color="Transparent" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{Binding ActualWidth, ElementName=templateRoot}">
+                        <Border x:Name="dropDownBorder" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+                            <ScrollViewer x:Name="DropDownScrollViewer">
+                                <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
+                                    <Canvas x:Name="canvas" HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
+                                        <Rectangle x:Name="opaqueRect" Fill="{Binding Background, ElementName=dropDownBorder}" Height="{Binding ActualHeight, ElementName=dropDownBorder}" Width="{Binding ActualWidth, ElementName=dropDownBorder}"/>
+                                    </Canvas>
+                                    <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </Grid>
+                            </ScrollViewer>
+                        </Border>
+                    </Themes:SystemDropShadowChrome>
+                </Popup>
+                <ToggleButton x:Name="toggleButton" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ComboBoxToggleButton}"/>
+                <Border x:Name="border" Background="{StaticResource TextBox.Static.Background}" Margin="{TemplateBinding BorderThickness}">
+                    <TextBox x:Name="PART_EditableTextBox" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Margin="{TemplateBinding Padding}" Style="{StaticResource ComboBoxEditableTextBox}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </Border>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocusWithin" Value="true">
+                    <Setter Property="Foreground" Value="Silver"/>
+                </Trigger>
+                <Trigger Property="HasDropShadow" SourceName="PART_Popup" Value="true">
+                    <Setter Property="Margin" TargetName="shadow" Value="0,0,5,5"/>
+                    <Setter Property="Color" TargetName="shadow" Value="#71000000"/>
+                </Trigger>
+                <Trigger Property="HasItems" Value="false">
+                    <Setter Property="Height" TargetName="dropDownBorder" Value="95"/>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsGrouping" Value="true"/>
+                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                </MultiTrigger>
+                <Trigger Property="ScrollViewer.CanContentScroll" SourceName="DropDownScrollViewer" Value="false">
+                    <Setter Property="Canvas.Top" TargetName="opaqueRect" Value="{Binding VerticalOffset, ElementName=DropDownScrollViewer}"/>
+                    <Setter Property="Canvas.Left" TargetName="opaqueRect" Value="{Binding HorizontalOffset, ElementName=DropDownScrollViewer}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <Style x:Key="ComboBoxStyle1" TargetType="{x:Type ComboBox}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource ComboBox.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ComboBox.Static.Border}"/>
+            <Setter Property="Foreground" Value="Silver"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="Padding" Value="6,3,5,3"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Template" Value="{StaticResource ComboBoxTemplate}"/>
+            <Style.Triggers>
+                <Trigger Property="IsEditable" Value="true">
+                    <Setter Property="IsTabStop" Value="false"/>
+                    <Setter Property="Padding" Value="2"/>
+                    <Setter Property="Template" Value="{StaticResource ComboBoxEditableTemplate}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <LinearGradientBrush x:Key="TabItem.Static.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#F0F0F0" Offset="0.0"/>
+            <GradientStop Color="#E5E5E5" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="TabItem.Static.Border" Color="#ACACAC"/>
+        <LinearGradientBrush x:Key="TabItem.MouseOver.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#285b82" Offset="0.0"/>
+            <GradientStop Color="#285b82" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="TabItem.MouseOver.Border" Color="#7EB4EA"/>
+        <SolidColorBrush x:Key="TabItem.Disabled.Background" Color="#F0F0F0"/>
+        <SolidColorBrush x:Key="TabItem.Disabled.Border" Color="#D9D9D9"/>
+        <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#ACACAC"/>
+        <SolidColorBrush x:Key="TabItem.Selected.Background" Color="#FF212B34"/>
+        <Style x:Key="TabItemStyle1" TargetType="{x:Type TabItem}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Background" Value="{StaticResource TabItem.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource TabItem.Static.Border}"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="6,2,6,2"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
+                            <Border x:Name="mainBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,1,1,0" Background="{TemplateBinding Background}" Margin="0">
+                                <Border x:Name="innerBorder" BorderBrush="{StaticResource TabItem.Selected.Border}" BorderThickness="1,1,1,0" Background="{StaticResource TabItem.Selected.Background}" Margin="-1" Opacity="0"/>
+                            </Border>
+                            <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,0,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,0,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,0,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,0,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,1,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,1,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,0,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,0,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,0,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,0,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,1,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,1,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,0,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,0,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <Setter Property="Margin" Value="-2,-2,0,-2"/>
+                                <Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,0,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,0,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,0,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,0,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <Setter Property="Margin" Value="-2,0,-2,-2"/>
+                                <Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,0,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,0,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,1,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,1,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <Setter Property="Margin" Value="0,-2,-2,-2"/>
+                                <Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,1,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,1,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <Setter Property="Margin" Value="-2,-2,-2,0"/>
+                                <Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+                            </MultiDataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <LinearGradientBrush x:Key="TabItem.MouseOver.Background2" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#ECF4FC" Offset="0.0"/>
+            <GradientStop Color="#DCECFC" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="TabItem.Selected.Background2" Color="#FFFFFF"/>
+        <Style x:Key="TabItemStyle2" TargetType="{x:Type TabItem}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Background" Value="{StaticResource TabItem.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource TabItem.Static.Border}"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="6,2,6,2"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
+                            <Border x:Name="mainBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,1,1,0" Background="{TemplateBinding Background}" Margin="0">
+                                <Border x:Name="innerBorder" BorderBrush="{StaticResource TabItem.Selected.Border}" BorderThickness="1,1,1,0" Background="{StaticResource TabItem.Selected.Background}" Margin="-1" Opacity="0"/>
+                            </Border>
+                            <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,0,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,0,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,0,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,0,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,1,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,1,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,0,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,0,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,0,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,0,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,1,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,1,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,0,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,0,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <Setter Property="Margin" Value="-2,-2,0,-2"/>
+                                <Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,0,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,0,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,0,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,0,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <Setter Property="Margin" Value="-2,0,-2,-2"/>
+                                <Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,0,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,0,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,1,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,1,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <Setter Property="Margin" Value="0,-2,-2,-2"/>
+                                <Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,1,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,1,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <Setter Property="Margin" Value="-2,-2,-2,0"/>
+                                <Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+                            </MultiDataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+
+
+    <DockPanel>
+        <TabControl Background="#212B34" BorderBrush="{x:Null}">
+            <TabItem Header="Индекс массы тела" FontSize="14" FontFamily="Century Gothic"
+                     Background="#FF212B34" Foreground="Silver" BorderBrush="White" Style="{DynamicResource TabItemStyle1}" RenderTransformOrigin="0.5,0.509">
+                <Grid Margin="0,-3,0,-0.4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label x:Name="labelIMT" Content="Вычисление индекса массы Вашего тела" 
+               Height="30" Width="310" VerticalAlignment="Top" HorizontalAlignment="Left"
+               Margin="10,10,0,0" FontSize="14"
+               FontFamily="Century Gothic" Foreground="Silver"/>
+                    <Label x:Name="labelName" Content="Имя, фамилия" Width="120" Height="30"
+                   HorizontalAlignment="Left" VerticalAlignment="Top" Margin="64,45,0,0"
+                           FontSize="14" FontFamily="Century Gothic" Foreground="Silver"/>
+
+                    <TextBox x:Name="fieldName" Width="200" FontSize="14" Height="25"
+                         HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,90,0,0" Background="#FF212B34" BorderThickness="0,0,0,1"
+                         BorderBrush="#FF6A7780" Foreground="White" CaretBrush="#FF6A7780"/>
+
+                    <Label x:Name="labelAge" Content="Возраст" Height="30" Width="69" VerticalAlignment="Top"
+                HorizontalAlignment="Left" Margin="85,135,0,0" FontSize="14"
+                           FontFamily="Century Gothic" Foreground="Silver"/>
+
+                    <TextBox x:Name="fieldAge" Width="200" FontSize="14" Height="25"
+                    HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,180,0,0" Background="#FF212B34" BorderThickness="0,0,0,1"
+                    BorderBrush="#FF6A7780" Foreground="White" CaretBrush="#FF6A7780" 
+                    PreviewTextInput="field_PreviewTextInput"/>
+
+                    <Label x:Name="labelGender" Content="Пол" HorizontalAlignment="Left" VerticalAlignment="Top"
+                    Margin="258,45,0,0" Height="30" Width="38" FontSize="14"
+                    FontFamily="Century Gothic" Foreground="Silver"/>
+
+
+
+                    <Label x:Name="labelHeight" Content="Рост (м)" Height="30" Width="69" 
+                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="85,225,0,0" 
+                           FontSize="14" FontFamily="Century Gothic" Foreground="Silver"/>
+
+                    <TextBox x:Name="fieldHeight" Width="200" FontSize="14" Height="25"
+                    HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,270,0,0" 
+                    Background="#FF212B34" BorderThickness="0,0,0,1" BorderBrush="#FF6A7780"
+                    Foreground="White" CaretBrush="#FF6A7780"/>
+
+                    <Label x:Name="labelWeight" Content="Вес (кг)" Width="62" Height="30"
+                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="85,315,0,0" 
+                           FontSize="14" FontFamily="Century Gothic" Foreground="Silver"/>
+
+                    <TextBox x:Name="fieldWeight" Width="200" FontSize="14" Height="25"
+                    HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,360,0,0" 
+                    Background="#FF212B34" BorderThickness="0,0,0,1" BorderBrush="#FF6A7780"
+                    Foreground="White" CaretBrush="#FF6A7780"/>
+
+                    <ComboBox x:Name="selectGender" Height="25" Width="70" Margin="240,90,0,0"
+                     FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left"
+                     FontFamily="Century Gothic" Foreground="Silver" Style="{DynamicResource ComboBoxStyle1}">
+
+                        <ComboBoxItem BorderThickness="1 1 0 1" Background="#FF212B34"
+                                      Foreground="Silver" Height="25" Content="Муж."/>
+                        <ComboBoxItem BorderThickness="1 0 0 1" Background="#FF212B34"
+                                      Foreground="Silver" Height="25" Content="Жен."/>
+                    </ComboBox>
+
+                    <Button x:Name="btnIMT" Content="Вычислить" FontSize="14" Height="30" Width="100"
+                     Click="btnIMT_Click" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                     Margin="240, 0, 0, 20" FontFamily="Century Gothic" Background="#FF212B34" 
+                     OpacityMask="Black" BorderBrush="#FF212B34" Foreground="#FF6A7780"
+                     FontWeight="Bold" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+
+                    <Image Height="295" Width="375" Source="D:\Microsoft Visual Studio\MyProjects\BodyMassIndex\Images\IMT2.jpg"
+                           VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 40 0"/>
+
+                    <Button x:Name="exitBtn" Width="100" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top"
+                            Margin="10" Background="#FF212B34" BorderThickness="0" Content="Exit" Foreground="#FF6A7780"
+                            FontFamily="Century Gothic" FontWeight="Bold" Click="btnExit_Click"
+                            Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Таблица" FontSize="14" FontFamily="Century Gothic" 
+                     Style="{DynamicResource TabItemStyle2}" Background="#FF212B34" Foreground="Silver">
+
+                <Grid Margin="-3,-3,-2.6,-2.8">
+                    <Grid.Background>
+                        <SolidColorBrush Color="AliceBlue"/>
+                    </Grid.Background>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Background="LightGray" Grid.Column="1" Grid.Row="1"/>
+                    <TextBlock Text="   45" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="2" Grid.Row="1"/>
+                    <TextBlock Text="   48" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="3" Grid.Row="1"/>
+                    <TextBlock Text="   51" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="4" Grid.Row="1"/>
+                    <TextBlock Text="   54" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="5" Grid.Row="1"/>
+                    <TextBlock Text="   57" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="6" Grid.Row="1"/>
+                    <TextBlock Text="   60" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="7" Grid.Row="1"/>
+                    <TextBlock Text="   63" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="8" Grid.Row="1"/>
+                    <TextBlock Text="   66" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="9" Grid.Row="1"/>
+                    <TextBlock Text="   69" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="10" Grid.Row="1"/>
+                    <TextBlock Text="   72" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="11" Grid.Row="1"/>
+                    <TextBlock Text="   75" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="12" Grid.Row="1"/>
+                    <TextBlock Text="   78" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="13" Grid.Row="1"/>
+                    <TextBlock Text="   81" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="14" Grid.Row="1"/>
+                    <TextBlock Text="   84" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="15" Grid.Row="1"/>
+                    <TextBlock Text="   87" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="16" Grid.Row="1"/>
+                    <TextBlock Text="   90" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="17" Grid.Row="1"/>
+                    <TextBlock Text="   93" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="18" Grid.Row="1"/>
+                    <TextBlock Text="   96" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="19" Grid.Row="1"/>
+                    <TextBlock Text="   99" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="20" Grid.Row="1"/>
+                    <TextBlock Text="  102" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="21" Grid.Row="1"/>
+                    <TextBlock Text="  105" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="22" Grid.Row="1"/>
+                    <TextBlock Text="  108" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="23" Grid.Row="1"/>
+                    <TextBlock Text="  111" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="24" Grid.Row="1"/>
+                    <TextBlock Text="  114" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="25" Grid.Row="1"/>
+                    <TextBlock Text="  117" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="26" Grid.Row="1"/>
+                    <TextBlock Text="  150" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="2"/>
+                    <TextBlock Text="  152" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="3"/>
+                    <TextBlock Text="  154" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="4"/>
+                    <TextBlock Text="  156" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="5"/>
+                    <TextBlock Text="  158" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="6"/>
+                    <TextBlock Text="  160" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="7"/>
+                    <TextBlock Text="  162" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="8"/>
+                    <TextBlock Text="  164" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="9"/>
+                    <TextBlock Text="  166" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="10"/>
+                    <TextBlock Text="  168" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="11"/>
+                    <TextBlock Text="  170" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="12"/>
+                    <TextBlock Text="  172" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="13"/>
+                    <TextBlock Text="  174" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="14"/>
+                    <TextBlock Text="  176" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="15"/>
+                    <TextBlock Text="  178" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="16"/>
+                    <TextBlock Text="  180" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="17"/>
+                    <TextBlock Text="  182" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="18"/>
+                    <TextBlock Text="  184" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="19"/>
+                    <TextBlock Text="  186" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="20"/>
+                    <TextBlock Text="  188" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="21"/>
+                    <TextBlock Text="  190" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="22"/>
+                    <TextBlock Text="  192" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="23"/>
+                    <TextBlock Text="  194" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="24"/>
+                    <TextBlock Text="  196" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="25"/>
+                    <TextBlock Text="  198" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="26"/>
+                    <TextBlock Text="  200" FontSize="10" Background="LightGray" Foreground="Black"
+                               Grid.Column="1" Grid.Row="27"/>
+                    <TextBlock Text="   20" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="2" Grid.Row="2"/>
+                    <TextBlock Text="  21,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="3" Grid.Row="2"/>
+                    <TextBlock Text="  22,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="4" Grid.Row="2"/>
+                    <TextBlock Text="   24" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="5" Grid.Row="2"/>
+                    <TextBlock Text="  25,3" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="6" Grid.Row="2"/>
+                    <TextBlock Text="  26,7" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="7" Grid.Row="2"/>
+                    <TextBlock Text="   28" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="8" Grid.Row="2"/>
+                    <TextBlock Text="  29,3" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="9" Grid.Row="2"/>
+                    <TextBlock Text="  30,7" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="10" Grid.Row="2"/>
+                    <TextBlock Text="   32" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="11" Grid.Row="2"/>
+                    <TextBlock Text="  33,3" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="12" Grid.Row="2"/>
+                    <TextBlock Text="  34,7" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="13" Grid.Row="2"/>
+                    <TextBlock Text="   36" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="14" Grid.Row="2"/>
+                    <TextBlock Text="  37,3" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="15" Grid.Row="2"/>
+                    <TextBlock Text="  38,7" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="16" Grid.Row="2"/>
+                    <TextBlock Text="   40" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="17" Grid.Row="2"/>
+                    <TextBlock Text="  41,3" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="18" Grid.Row="2"/>
+                    <TextBlock Text="  42,7" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="19" Grid.Row="2"/>
+                    <TextBlock Text="   44" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="20" Grid.Row="2"/>
+                    <TextBlock Text="  45,3" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="21" Grid.Row="2"/>
+                    <TextBlock Text="  46,7" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="22" Grid.Row="2"/>
+                    <TextBlock Text="   48" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="23" Grid.Row="2"/>
+                    <TextBlock Text="  49,3" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="24" Grid.Row="2"/>
+                    <TextBlock Text="  50,7" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="25" Grid.Row="2"/>
+                    <TextBlock Text="   52" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="26" Grid.Row="2"/>
+                    <TextBlock Text="  19,5" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="2" Grid.Row="3"/>
+                    <TextBlock Text="   19" FontSize="10" Background="#9ddefc"        Foreground="Black"
+                               Grid.Column="2" Grid.Row="4"/>                         
+                    <TextBlock Text="  18,5" FontSize="10" Background="#9ddefc"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="5"/>                         
+                    <TextBlock Text="   18" FontSize="10" Background="#35e664"        Foreground="Black"
+                               Grid.Column="2" Grid.Row="6"/>                         
+                    <TextBlock Text="  17,6" FontSize="10" Background="#35e664"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="7"/>                         
+                    <TextBlock Text="  17,1" FontSize="10" Background="#35e664"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="8"/>                        
+                    <TextBlock Text="  16,7" FontSize="10" Background="#35e664"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="9"/>                         
+                    <TextBlock Text="  16,3" FontSize="10" Background="#35e664"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="10"/>                        
+                    <TextBlock Text="  15,9" FontSize="10" Background="#35e664"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="11"/>                        
+                    <TextBlock Text="  15,6" FontSize="10" Background="#35e664"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="12"/>                        
+                    <TextBlock Text="  15,2" FontSize="10" Background="#35e664"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="13"/>                       
+                    <TextBlock Text="  14,9" FontSize="10" Background="#35e664"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="14"/>                        
+                    <TextBlock Text="  14,5" FontSize="10" Background="#35e664"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="15"/>                        
+                    <TextBlock Text="  14,2" FontSize="10" Background="#35e664"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="16"/>                        
+                    <TextBlock Text="  13,9" FontSize="10" Background="#35e664"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="17"/>                        
+                    <TextBlock Text="  13,6" FontSize="10" Background="#35e664"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="18"/>                        
+                    <TextBlock Text="  13,3" FontSize="10" Background="#35e664"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="19"/>                        
+                    <TextBlock Text="   13" FontSize="10" Background="#35e664"        Foreground="Black"
+                               Grid.Column="2" Grid.Row="20"/>                        
+                    <TextBlock Text="  12,7" FontSize="10" Background="#35e664"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="21"/>                       
+                    <TextBlock Text="  12,5" FontSize="10" Background="#35e664"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="22"/>                        
+                    <TextBlock Text="  12,2" FontSize="10" Background="#35e664"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="23"/>                        
+                    <TextBlock Text="   12" FontSize="10" Background="#35e664"        Foreground="Black"
+                               Grid.Column="2" Grid.Row="24"/>                        
+                    <TextBlock Text="  11,7" FontSize="10" Background="#35e664"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="25"/>                        
+                    <TextBlock Text="  11,5" FontSize="10" Background="#35e664"       Foreground="Black"
+                               Grid.Column="2" Grid.Row="26"/>
+                    <TextBlock Text="  11,3" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="2" Grid.Row="27"/>
+                    <TextBlock Text="&#x9;&#x9;     Дефицит массы тела" FontSize="10" Background="#35e664"
+                               Grid.Column="2" Grid.Row="27" Grid.ColumnSpan="10" Margin="0,13.2,0,0" Grid.RowSpan="2" FontWeight="Bold"
+                               Foreground="Black"/>
+                    <TextBlock Text="   18" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="11" Grid.Row="27"/>
+                    <TextBlock Text="  18,4" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="11" Grid.Row="26"/>
+                    <TextBlock Text="  18,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="12" Grid.Row="27"/>
+                    <TextBlock Text="&#x9;&#x9;&#x9;Норма" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="12" Grid.Row="27" Grid.ColumnSpan="9"
+                               Margin="0,13.6,0,-0.2" Grid.RowSpan="2" HorizontalAlignment="Right" Width="259" FontWeight="Bold"/>
+                    <TextBlock Text="&#x9;Предожирение" FontSize="10" Background="#ffd7b8"
+                               Grid.Column="21" Grid.Row="27" Grid.ColumnSpan="6"
+                               Margin="0,13.2,0,0" Grid.RowSpan="2" FontWeight="Bold" Foreground="Black"/>
+                    <TextBlock Text="  29,8" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="26" Grid.Row="26"/>
+                    <TextBlock Text="  28,5" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="25" Grid.Row="27"/>
+                    <TextBlock Text="  29,3" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="26" Grid.Row="27"/>
+                    <TextBlock Text="  30,5" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="26" Grid.Row="25"/>
+                    <TextBlock Text="  31,1" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="26" Grid.Row="24"/>
+                    <TextBlock Text="  31,7" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="26" Grid.Row="23"/>
+                    <TextBlock Text="  32,4" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="26" Grid.Row="22"/>
+                    <TextBlock Text="  33,1" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="26" Grid.Row="21"/>
+                    <TextBlock Text="  33,8" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="26" Grid.Row="20"/>
+                    <TextBlock FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="25" Grid.Row="22" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="3" Margin="27.2,0.4,-29.4,13.8" Grid.RowSpan="3" FontWeight="Bold">
+                        <TextBlock.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="-90"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </TextBlock.RenderTransform><Run Text="     "/><Run Text="Ожирение I"/><Run Text=" "/><LineBreak/><Run Text="        "/><Run Text="степени"/></TextBlock>
+
+
+                    <TextBlock Text="  34,6" FontSize="10" Background="#ffa033"  Foreground="Black"
+                               Grid.Column="26" Grid.Row="19"/>
+                    <TextBlock Text="  35,3" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="26" Grid.Row="18"/>
+                    <TextBlock Text="  36,1" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="26" Grid.Row="17"/>
+                    <TextBlock Text="  36,9" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="26" Grid.Row="16"/>
+                    <TextBlock Text="  37,8" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="26" Grid.Row="15"/>
+                    <TextBlock Text="  38,6" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="26" Grid.Row="14"/>
+                    <TextBlock Text="  39,5" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="26" Grid.Row="13"/>
+                    <TextBlock FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="25" Grid.Row="15" RenderTransformOrigin="0.5,0.5"
+                               Grid.ColumnSpan="3" Margin="17.2,4.2,-37.4,8.4"
+                               Grid.RowSpan="3" FontWeight="Bold">
+                        <TextBlock.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="-90"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </TextBlock.RenderTransform><Run Text="      Ожирение II "/><LineBreak/><Run Text="          степени"/></TextBlock>
+                    <TextBlock Text="  40,5" FontSize="10" Background="#ff5e5e"  Foreground="Black"
+                               Grid.Column="26" Grid.Row="12"/>
+                    <TextBlock Text="  41,5" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="26" Grid.Row="11"/>
+                    <TextBlock Text="  42,5" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="26" Grid.Row="10"/>
+                    <TextBlock Text="  43,5" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="26" Grid.Row="9"/>
+                    <TextBlock Text="  44,6" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="26" Grid.Row="8"/>
+                    <TextBlock Text="  45,7" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="26" Grid.Row="7"/>
+                    <TextBlock Text="  46,9" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="26" Grid.Row="6"/>
+                    <TextBlock Text="  48,1" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="26" Grid.Row="5"/>
+                    <TextBlock Text="  49,3" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="26" Grid.Row="4"/>
+                    <TextBlock Text="  50,6" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="26" Grid.Row="3"/>
+                    <TextBlock FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="24" Grid.Row="6" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="4" Margin="20,6.6,-64.4,5.6" Grid.RowSpan="3" FontWeight="Bold">
+                        <TextBlock.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="-90"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </TextBlock.RenderTransform><Run Text="        "/><Run Text="Ожирение III степени"/></TextBlock>
+                    <TextBlock Text="Масса, кг" FontSize="10" Foreground="Black"
+                               Grid.Column="13" Grid.Row="0" 
+                               Grid.ColumnSpan="2" Margin="0,0,0,13.2" 
+                               Grid.RowSpan="2" FontWeight="Bold"/>
+                    <TextBlock Text="  Рост, см" FontSize="10" Foreground="Black"
+                               Grid.Column="0" Grid.Row="13" FontWeight="Bold" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2" Margin="-9,0.8,8,0" Grid.RowSpan="2">
+                        <TextBlock.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="-90"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <TextBlock Text="  18,3" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="8"/>
+                    <TextBlock Text="  17,8" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="9"/>
+                    <TextBlock Text="  17,4" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="10"/>
+                    <TextBlock Text="   17" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="11"/>
+                    <TextBlock Text="  16,6" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="12"/>
+                    <TextBlock Text="  16,2" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="13"/>
+                    <TextBlock Text="  15,9" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="14"/>
+                    <TextBlock Text="  15,5" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="15"/>
+                    <TextBlock Text="  15,1" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="16"/>
+                    <TextBlock Text="  14,8" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="17"/>
+                    <TextBlock Text="  14,5" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="18"/>
+                    <TextBlock Text="  14,2" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="19"/>
+                    <TextBlock Text="  13,9" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="20"/>
+                    <TextBlock Text="  13,6" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="21"/>
+                    <TextBlock Text="  13,3" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="22"/>
+                    <TextBlock Text="   13" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="23"/>
+                    <TextBlock Text="  12,8" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="24"/>
+                    <TextBlock Text="  12,5" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="25"/>
+                    <TextBlock Text="  12,2" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="26"/>
+                    <TextBlock Text="   12" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="3" Grid.Row="27"/>
+                    <TextBlock Text="  18,1" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="4" Grid.Row="11"/>
+                    <TextBlock Text="  17,6" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="4" Grid.Row="12"/>
+                    <TextBlock Text="  17,2" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="4" Grid.Row="13"/>
+                    <TextBlock Text="  16,8" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="4" Grid.Row="14"/>
+                    <TextBlock Text="  16,5" FontSize="10" Background="#35e664"  Foreground="Black"
+                               Grid.Column="4" Grid.Row="15"/>
+                    <TextBlock Text="  16,1" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="4" Grid.Row="16"/>
+                    <TextBlock Text="  15,7" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="4" Grid.Row="17"/>
+                    <TextBlock Text="  15,4" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="4" Grid.Row="18"/>
+                    <TextBlock Text="  15,1" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="4" Grid.Row="19"/>
+                    <TextBlock Text="  14,7" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="4" Grid.Row="20"/>
+                    <TextBlock Text="  14,4" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="4" Grid.Row="21"/>
+                    <TextBlock Text="  14,1" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="4" Grid.Row="22"/>
+                    <TextBlock Text="  13,8" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="4" Grid.Row="23"/>
+                    <TextBlock Text="  13,6" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="4" Grid.Row="24"/>
+                    <TextBlock Text="  13,3" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="4" Grid.Row="25"/>
+                    <TextBlock Text="   13" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="4" Grid.Row="26"/>
+                    <TextBlock Text="  13,5" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="4" Grid.Row="27"/>
+                    <TextBlock Text="  18,3" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="5" Grid.Row="13"/>
+                    <TextBlock Text="  17,8" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="5" Grid.Row="14"/>
+                    <TextBlock Text="  17,4" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="5" Grid.Row="15"/>
+                    <TextBlock Text="   17" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="5" Grid.Row="16"/>
+                    <TextBlock Text="  16,7" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="5" Grid.Row="17"/>
+                    <TextBlock Text="  16,3" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="5" Grid.Row="18"/>
+                    <TextBlock Text="  15,9" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="5" Grid.Row="19"/>
+                    <TextBlock Text="  15,6" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="5" Grid.Row="20"/>
+                    <TextBlock Text="  15,3" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="5" Grid.Row="21"/>
+                    <TextBlock Text="   15" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="5" Grid.Row="22"/>
+                    <TextBlock Text="  14,6" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="5" Grid.Row="23"/>
+                    <TextBlock Text="  14,3" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="5" Grid.Row="24"/>
+                    <TextBlock Text="  14,1" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="5" Grid.Row="25"/>
+                    <TextBlock Text="  13,8" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="5" Grid.Row="26"/>
+                    <TextBlock Text="  13,5" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="5" Grid.Row="27"/>
+                    <TextBlock Text="  18,4" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="6" Grid.Row="15"/>
+                    <TextBlock Text="   18" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="6" Grid.Row="16"/>
+                    <TextBlock Text="  17,6" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="6" Grid.Row="17"/>
+                    <TextBlock Text="  17,2" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="6" Grid.Row="18"/>
+                    <TextBlock Text="  16,8" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="6" Grid.Row="19"/>
+                    <TextBlock Text="  16,5" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="6" Grid.Row="20"/>
+                    <TextBlock Text="  16,1" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="6" Grid.Row="21"/>
+                    <TextBlock Text="  15,8" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="6" Grid.Row="22"/>
+                    <TextBlock Text="  15,5" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="6" Grid.Row="23"/>
+                    <TextBlock Text="  15,1" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="6" Grid.Row="24"/>
+                    <TextBlock Text="  14,8" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="6" Grid.Row="25"/>
+                    <TextBlock Text="  14,5" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="6" Grid.Row="26"/>
+                    <TextBlock Text="  14,3" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="6" Grid.Row="27"/>
+                    <TextBlock Text="  18,1" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="7" Grid.Row="18"/>
+                    <TextBlock Text="  17,7" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="7" Grid.Row="19"/>
+                    <TextBlock Text="  17,3" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="7" Grid.Row="20"/>
+                    <TextBlock Text="   17" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="7" Grid.Row="21"/>
+                    <TextBlock Text="  16,6" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="7" Grid.Row="22"/>
+                    <TextBlock Text="  16,3" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="7" Grid.Row="23"/>
+                    <TextBlock Text="  15,9" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="7" Grid.Row="24"/>
+                    <TextBlock Text="  15,6" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="7" Grid.Row="25"/>
+                    <TextBlock Text="  15,3" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="7" Grid.Row="26"/>
+                    <TextBlock Text="   15" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="7" Grid.Row="27"/>
+                    <TextBlock Text="  18,2" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="8" Grid.Row="20"/>
+                    <TextBlock Text="  17,8" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="8" Grid.Row="21"/>
+                    <TextBlock Text="  17,5" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="8" Grid.Row="22"/>
+                    <TextBlock Text="  17,1" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="8" Grid.Row="23"/>
+                    <TextBlock Text="  16,7" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="8" Grid.Row="24"/>
+                    <TextBlock Text="  16,4" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="8" Grid.Row="25"/>
+                    <TextBlock Text="  16,1" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="8" Grid.Row="26"/>
+                    <TextBlock Text="  15,8" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="8" Grid.Row="27"/>
+                    <TextBlock Text="  18,3" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="9" Grid.Row="22"/>
+                    <TextBlock Text="  17,9" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="9" Grid.Row="23"/>
+                    <TextBlock Text="  17,5" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="9" Grid.Row="24"/>
+                    <TextBlock Text="  17,2" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="9" Grid.Row="25"/>
+                    <TextBlock Text="  16,8" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="9" Grid.Row="26"/>
+                    <TextBlock Text="  16,5" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="9" Grid.Row="27"/>
+                    <TextBlock Text="  18,3" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="10" Grid.Row="24"/>
+                    <TextBlock Text="   18" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="10" Grid.Row="25"/>
+                    <TextBlock Text="  17,6" FontSize="10" Background="#35e664"  Foreground="Black"
+                               Grid.Column="10" Grid.Row="26"/>
+                    <TextBlock Text="  17,3" FontSize="10" Background="#35e664" Foreground="Black"
+                               Grid.Column="10" Grid.Row="27"/>
+                    <TextBlock Text="  19,5" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="13" Grid.Row="27"/>
+                    <TextBlock Text="  20,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="14" Grid.Row="27"/>
+                    <TextBlock Text="   21" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="15" Grid.Row="27"/>
+                    <TextBlock Text="  21,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="16" Grid.Row="27"/>
+                    <TextBlock Text="  22,5" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="17" Grid.Row="27"/>
+                    <TextBlock Text="  23,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="18" Grid.Row="27"/>
+                    <TextBlock Text="   24" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="19" Grid.Row="27"/>
+                    <TextBlock Text="  24,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="20" Grid.Row="27"/>
+                    <TextBlock Text="  19,1" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="12" Grid.Row="26"/>
+                    <TextBlock Text="  19,9" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="13" Grid.Row="26"/>
+                    <TextBlock Text="  20,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="14" Grid.Row="26"/>
+                    <TextBlock Text="  21,4" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="15" Grid.Row="26"/>
+                    <TextBlock Text="  22,2" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="16" Grid.Row="26"/>
+                    <TextBlock Text="   23" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="17" Grid.Row="26"/>
+                    <TextBlock Text="  23,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="18" Grid.Row="26"/>
+                    <TextBlock Text="  24,5" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="19" Grid.Row="26"/>
+                    <TextBlock Text="  18,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="11" Grid.Row="25"/>
+                    <TextBlock Text="  19,5" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="12" Grid.Row="25"/>
+                    <TextBlock Text="  20,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="13" Grid.Row="25"/>
+                    <TextBlock Text="  21,1" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="14" Grid.Row="25"/>
+                    <TextBlock Text="  21,9" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="15" Grid.Row="25"/>
+                    <TextBlock Text="  22,6" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="16" Grid.Row="25"/>
+                    <TextBlock Text="  23,4" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="17" Grid.Row="25"/>
+                    <TextBlock Text="  24,2" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="18" Grid.Row="25"/>
+                    <TextBlock Text="   25" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="19" Grid.Row="25"/>
+                    <TextBlock Text="  19,1" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="11" Grid.Row="24"/>
+                    <TextBlock Text="  19,9" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="12" Grid.Row="24"/>
+                    <TextBlock Text="  20,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="13" Grid.Row="24"/>
+                    <TextBlock Text="  21,5" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="14" Grid.Row="24"/>
+                    <TextBlock Text="  22,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="15" Grid.Row="24"/>
+                    <TextBlock Text="  23,1" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="16" Grid.Row="24"/>
+                    <TextBlock Text="  23,9" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="17" Grid.Row="24"/>
+                    <TextBlock Text="  24,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="18" Grid.Row="24"/>
+                    <TextBlock Text="  18,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="10" Grid.Row="23"/>
+                    <TextBlock Text="  19,5" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="11" Grid.Row="23"/>
+                    <TextBlock Text="  20,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="12" Grid.Row="23"/>
+                    <TextBlock Text="  21,2" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="13" Grid.Row="23"/>
+                    <TextBlock Text="   22" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="14" Grid.Row="23"/>
+                    <TextBlock Text="  22,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="15" Grid.Row="23"/>
+                    <TextBlock Text="  23,6" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="16" Grid.Row="23"/>
+                    <TextBlock Text="  24,4" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="17" Grid.Row="23"/>
+                    <TextBlock Text="  19,1" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="10" Grid.Row="22"/>
+                    <TextBlock Text="  19,9" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="11" Grid.Row="22"/>
+                    <TextBlock Text="  20,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="12" Grid.Row="22"/>
+                    <TextBlock Text="  21,6" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="13" Grid.Row="22"/>
+                    <TextBlock Text="  22,4" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="14" Grid.Row="22"/>
+                    <TextBlock Text="  23,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="15" Grid.Row="22"/>
+                    <TextBlock Text="  24,1" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="16" Grid.Row="22"/>
+                    <TextBlock Text="  24,9" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="17" Grid.Row="22"/>
+                    <TextBlock Text="  18,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="9" Grid.Row="21"/>
+                    <TextBlock Text="  19,5" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="10" Grid.Row="21"/>
+                    <TextBlock Text="  20,4" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="11" Grid.Row="21"/>
+                    <TextBlock Text="  21,2" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="12" Grid.Row="21"/>
+                    <TextBlock Text="  22,1" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="13" Grid.Row="21"/>
+                    <TextBlock Text="  22,9" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="14" Grid.Row="21"/>
+                    <TextBlock Text="  23,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="15" Grid.Row="21"/>
+                    <TextBlock Text="  24,6" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="16" Grid.Row="21"/>
+                    <TextBlock Text="  19,1" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="9" Grid.Row="20"/>
+                    <TextBlock Text="  19,9" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="10" Grid.Row="20"/>
+                    <TextBlock Text="  20,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="11" Grid.Row="20"/>
+                    <TextBlock Text="  21,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="12" Grid.Row="20"/>
+                    <TextBlock Text="  22,5" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="13" Grid.Row="20"/>
+                    <TextBlock Text="  23,4" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="14" Grid.Row="20"/>
+                    <TextBlock Text="  24,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="15" Grid.Row="20"/>
+                    <TextBlock Text="  18,6" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="8" Grid.Row="19"/>
+                    <TextBlock Text="  19,5" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="9" Grid.Row="19"/>
+                    <TextBlock Text="  20,4" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="10" Grid.Row="19"/>
+                    <TextBlock Text="  21,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="11" Grid.Row="19"/>
+                    <TextBlock Text="  22,2" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="12" Grid.Row="19"/>
+                    <TextBlock Text="   23" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="13" Grid.Row="19"/>
+                    <TextBlock Text="  23,9" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="14" Grid.Row="19"/>
+                    <TextBlock Text="  24,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="15" Grid.Row="19"/>
+                    <TextBlock Text="   19" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="8" Grid.Row="18"/>
+                    <TextBlock Text="  19,9" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="9" Grid.Row="18"/>
+                    <TextBlock Text="  20,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="10" Grid.Row="18"/>
+                    <TextBlock Text="  21,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="11" Grid.Row="18"/>
+                    <TextBlock Text="  22,6" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="12" Grid.Row="18"/>
+                    <TextBlock Text="  23,5" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="13" Grid.Row="18"/>
+                    <TextBlock Text="  24,5" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="14" Grid.Row="18"/>
+                    <TextBlock Text="  18,5" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="7" Grid.Row="17"/>
+                    <TextBlock Text="  19,4" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="8" Grid.Row="17"/>
+                    <TextBlock Text="  20,4" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="9" Grid.Row="17"/>
+                    <TextBlock Text="  21,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="10" Grid.Row="17"/>
+                    <TextBlock Text="  22,2" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="11" Grid.Row="17"/>
+                    <TextBlock Text="  23,1" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="12" Grid.Row="17"/>
+                    <TextBlock Text="  24,1" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="13" Grid.Row="17"/>
+                    <TextBlock Text="   25" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="14" Grid.Row="17"/>
+                    <TextBlock Text="  18,9" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="7" Grid.Row="16"/>
+                    <TextBlock Text="  19,9" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="8" Grid.Row="16"/>
+                    <TextBlock Text="  20,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="9" Grid.Row="16"/>
+                    <TextBlock Text="  21,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="10" Grid.Row="16"/>
+                    <TextBlock Text="  22,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="11" Grid.Row="16"/>
+                    <TextBlock Text="  23,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="12" Grid.Row="16"/>
+                    <TextBlock Text="  24,6" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="13" Grid.Row="16"/>
+                    <TextBlock Text="  19,4" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="7" Grid.Row="15"/>
+                    <TextBlock Text="  20,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="8" Grid.Row="15"/>
+                    <TextBlock Text="  21,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="9" Grid.Row="15"/>
+                    <TextBlock Text="  22,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="10" Grid.Row="15"/>
+                    <TextBlock Text="  23,2" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="11" Grid.Row="15"/>
+                    <TextBlock Text="  24,2" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="12" Grid.Row="15"/>
+                    <TextBlock Text="  18,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="6" Grid.Row="14"/>
+                    <TextBlock Text="  19,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="7" Grid.Row="14"/>
+                    <TextBlock Text="  20,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="8" Grid.Row="14"/>
+                    <TextBlock Text="  21,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="9" Grid.Row="14"/>
+                    <TextBlock Text="  22,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="10" Grid.Row="14"/>
+                    <TextBlock Text="  23,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="11" Grid.Row="14"/>
+                    <TextBlock Text="  24,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="12" Grid.Row="14"/>
+                    <TextBlock Text="  19,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="6" Grid.Row="13"/>
+                    <TextBlock Text="  20,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="7" Grid.Row="13"/>
+                    <TextBlock Text="  21,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="8" Grid.Row="13"/>
+                    <TextBlock Text="  22,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="9" Grid.Row="13"/>
+                    <TextBlock Text="  23,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="10" Grid.Row="13"/>
+                    <TextBlock Text="  24,3" FontSize="10" Background="#9ddefc"  Foreground="Black"
+                               Grid.Column="11" Grid.Row="13"/>
+                    <TextBlock Text="  18,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="5" Grid.Row="12"/>
+                    <TextBlock Text="  19,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="6" Grid.Row="12"/>
+                    <TextBlock Text="  20,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="7" Grid.Row="12"/>
+                    <TextBlock Text="  21,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="8" Grid.Row="12"/>
+                    <TextBlock Text="  22,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="9" Grid.Row="12"/>
+                    <TextBlock Text="  23,9" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="10" Grid.Row="12"/>
+                    <TextBlock Text="  24,9" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="11" Grid.Row="12"/>
+                    <TextBlock Text="  19,1" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="5" Grid.Row="11"/>
+                    <TextBlock Text="  20,2" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="6" Grid.Row="11"/>
+                    <TextBlock Text="  21,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="7" Grid.Row="11"/>
+                    <TextBlock Text="  22,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="8" Grid.Row="11"/>
+                    <TextBlock Text="  23,4" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="9" Grid.Row="11"/>
+                    <TextBlock Text="  24,4" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="10" Grid.Row="11"/>
+                    <TextBlock Text="  18,5" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="4" Grid.Row="10"/>
+                    <TextBlock Text="  19,6" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="5" Grid.Row="10"/>
+                    <TextBlock Text="  20,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="6" Grid.Row="10"/>
+                    <TextBlock Text="  21,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="7" Grid.Row="10"/>
+                    <TextBlock Text="  22,9" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="8" Grid.Row="10"/>
+                    <TextBlock Text="   24" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="9" Grid.Row="10"/>
+                    <TextBlock Text="   25" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="10" Grid.Row="10"/>
+                    <TextBlock Text="   19" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="4" Grid.Row="9"/>
+                    <TextBlock Text="  20,1" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="5" Grid.Row="9"/>
+                    <TextBlock Text="  21,2" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="6" Grid.Row="9"/>
+                    <TextBlock Text="  22,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="7" Grid.Row="9"/>
+                    <TextBlock Text="  23,4" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="8" Grid.Row="9"/>
+                    <TextBlock Text="  24,5" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="9" Grid.Row="9"/>
+                    <TextBlock Text="  19,4" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="4" Grid.Row="8"/>
+                    <TextBlock Text="  20,6" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="5" Grid.Row="8"/>
+                    <TextBlock Text="  21,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="6" Grid.Row="8"/>
+                    <TextBlock Text="  22,9" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="7" Grid.Row="8"/>
+                    <TextBlock Text="   24" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="8" Grid.Row="8"/>
+                    <TextBlock Text="  18,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="3" Grid.Row="7"/>
+                    <TextBlock Text="  19,9" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="4" Grid.Row="7"/>
+                    <TextBlock Text="  21,1" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="5" Grid.Row="7"/>
+                    <TextBlock Text="  22,3" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="6" Grid.Row="7"/>
+                    <TextBlock Text="  23,4" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="7" Grid.Row="7"/>
+                    <TextBlock Text="  24,6" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="8" Grid.Row="7"/>
+                    <TextBlock Text="  19,2" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="3" Grid.Row="6"/>
+                    <TextBlock Text="  20,4" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="4" Grid.Row="6"/>
+                    <TextBlock Text="  21,6" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="5" Grid.Row="6"/>
+                    <TextBlock Text="  22,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="6" Grid.Row="6"/>
+                    <TextBlock Text="   24" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="7" Grid.Row="6"/>
+                    <TextBlock Text="  19,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="3" Grid.Row="5"/>
+                    <TextBlock Text="   21" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="4" Grid.Row="5"/>
+                    <TextBlock Text="  22,2" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="5" Grid.Row="5"/>
+                    <TextBlock Text="  23,4" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="6" Grid.Row="5"/>
+                    <TextBlock Text="  24,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="7" Grid.Row="5"/>
+                    <TextBlock Text="  20,2" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="3" Grid.Row="4"/>
+                    <TextBlock Text="  21,5" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="4" Grid.Row="4"/>
+                    <TextBlock Text="  22,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="5" Grid.Row="4"/>
+                    <TextBlock Text="   24" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="6" Grid.Row="4"/>
+                    <TextBlock Text="  20,8" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="3" Grid.Row="3"/>
+                    <TextBlock Text="  22,1" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="4" Grid.Row="3"/>
+                    <TextBlock Text="  23,4" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="5" Grid.Row="3"/>
+                    <TextBlock Text="  24,7" FontSize="10" Background="#9ddefc" Foreground="Black"
+                               Grid.Column="6" Grid.Row="3"/>
+                    <TextBlock Text="   26" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="7" Grid.Row="3"/>
+                    <TextBlock Text="  27,3" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="8" Grid.Row="3"/>
+                    <TextBlock Text="  28,6" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="9" Grid.Row="3"/>
+                    <TextBlock Text="  29,9" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="10" Grid.Row="3"/>
+                    <TextBlock Text="  25,3" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="7" Grid.Row="4"/>
+                    <TextBlock Text="  26,6" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="8" Grid.Row="4"/>
+                    <TextBlock Text="  27,8" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="9" Grid.Row="4"/>
+                    <TextBlock Text="  29,1" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="10" Grid.Row="4"/>
+                    <TextBlock Text="  25,9" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="8" Grid.Row="5"/>
+                    <TextBlock Text="  27,1" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="9" Grid.Row="5"/>
+                    <TextBlock Text="  28,4" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="10" Grid.Row="5"/>
+                    <TextBlock Text="  29,6" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="11" Grid.Row="5"/>
+                    <TextBlock Text="  25,2" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="8" Grid.Row="6"/>
+                    <TextBlock Text="  26,4" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="9" Grid.Row="6"/>
+                    <TextBlock Text="  27,6" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="10" Grid.Row="6"/>
+                    <TextBlock Text="  28,8" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="11" Grid.Row="6"/>
+                    <TextBlock Text="   30" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="12" Grid.Row="6"/>
+                    <TextBlock Text="  25,8" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="9" Grid.Row="7"/>
+                    <TextBlock Text="  25,1" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="9" Grid.Row="8"/>
+                    <TextBlock Text="   27" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="10" Grid.Row="7"/>
+                    <TextBlock Text="  28,1" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="11" Grid.Row="7"/>
+                    <TextBlock Text="  29,3" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="12" Grid.Row="7"/>
+                    <TextBlock Text="  26,3" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="10" Grid.Row="8"/>
+                    <TextBlock Text="  27,4" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="11" Grid.Row="8"/>
+                    <TextBlock Text="  28,6" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="12" Grid.Row="8"/>
+                    <TextBlock Text="  29,7" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="13" Grid.Row="8"/>
+                    <TextBlock Text="  25,7" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="10" Grid.Row="9"/>
+                    <TextBlock Text="  26,8" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="11" Grid.Row="9"/>
+                    <TextBlock Text="  27,9" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="12" Grid.Row="9"/>
+                    <TextBlock Text="   29" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="13" Grid.Row="9"/>
+                    <TextBlock Text="  26,1" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="11" Grid.Row="10"/>
+                    <TextBlock Text="  27,2" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="12" Grid.Row="10"/>
+                    <TextBlock Text="  28,3" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="13" Grid.Row="10"/>
+                    <TextBlock Text="  29,4" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="14" Grid.Row="10"/>
+                    <TextBlock Text="  25,5" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="11" Grid.Row="11"/>
+                    <TextBlock Text="  26,6" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="12" Grid.Row="11"/>
+                    <TextBlock Text="  27,6" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="13" Grid.Row="11"/>
+                    <TextBlock Text="  28,7" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="14" Grid.Row="11"/>
+                    <TextBlock Text="  29,8" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="15" Grid.Row="11"/>
+                    <TextBlock Text="   26" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="12" Grid.Row="12"/>
+                    <TextBlock Text="   27" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="13" Grid.Row="12"/>
+                    <TextBlock Text="   28" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="14" Grid.Row="12"/>
+                    <TextBlock Text="  29,1" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="15" Grid.Row="12"/>
+                    <TextBlock Text="  25,4" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="12" Grid.Row="13"/>
+                    <TextBlock Text="  26,4" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="13" Grid.Row="13"/>
+                    <TextBlock Text="  27,4" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="14" Grid.Row="13"/>
+                    <TextBlock Text="  28,4" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="15" Grid.Row="13"/>
+                    <TextBlock Text="  29,4" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="16" Grid.Row="13"/>
+                    <TextBlock Text="  25,8" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="13" Grid.Row="14"/>
+                    <TextBlock Text="  26,8" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="14" Grid.Row="14"/>
+                    <TextBlock Text="  27,7" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="15" Grid.Row="14"/>
+                    <TextBlock Text="  28,7" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="16" Grid.Row="14"/>
+                    <TextBlock Text="  29,7" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="17" Grid.Row="14"/>
+                    <TextBlock Text="  25,2" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="13" Grid.Row="15"/>
+                    <TextBlock Text="  26,1" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="14" Grid.Row="15"/>
+                    <TextBlock Text="  27,1" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="15" Grid.Row="15"/>
+                    <TextBlock Text="  28,1" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="16" Grid.Row="15"/>
+                    <TextBlock Text="  29,1" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="17" Grid.Row="15"/>
+                    <TextBlock Text="  25,6" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="14" Grid.Row="16"/>
+                    <TextBlock Text="  26,5" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="15" Grid.Row="16"/>
+                    <TextBlock Text="  27,5" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="16" Grid.Row="16"/>
+                    <TextBlock Text="  28,4" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="17" Grid.Row="16"/>
+                    <TextBlock Text="  29,4" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="18" Grid.Row="16"/>
+                    <TextBlock Text="  25,9" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="15" Grid.Row="17"/>
+                    <TextBlock Text="  26,9" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="16" Grid.Row="17"/>
+                    <TextBlock Text="  27,8" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="17" Grid.Row="17"/>
+                    <TextBlock Text="  28,7" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="18" Grid.Row="17"/>
+                    <TextBlock Text="  29,6" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="19" Grid.Row="17"/>
+                    <TextBlock Text="  25,4" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="15" Grid.Row="18"/>
+                    <TextBlock Text="  26,3" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="16" Grid.Row="18"/>
+                    <TextBlock Text="  27,2" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="17" Grid.Row="18"/>
+                    <TextBlock Text="  28,1" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="18" Grid.Row="18"/>
+                    <TextBlock Text="   29" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="19" Grid.Row="18"/>
+                    <TextBlock Text="  29,9" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="20" Grid.Row="18"/>
+                    <TextBlock Text="  25,7" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="16" Grid.Row="19"/>
+                    <TextBlock Text="  26,6" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="17" Grid.Row="19"/>
+                    <TextBlock Text="  27,5" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="18" Grid.Row="19"/>
+                    <TextBlock Text="  28,4" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="19" Grid.Row="19"/>
+                    <TextBlock Text="  29,2" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="20" Grid.Row="19"/>
+                    <TextBlock Text="  25,1" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="16" Grid.Row="20"/>
+                    <TextBlock Text="   26" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="17" Grid.Row="20"/>
+                    <TextBlock Text="  26,9" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="18" Grid.Row="20"/>
+                    <TextBlock Text="  27,7" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="19" Grid.Row="20"/>
+                    <TextBlock Text="  28,6" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="20" Grid.Row="20"/>
+                    <TextBlock Text="  29,5" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="21" Grid.Row="20"/>
+                    <TextBlock Text="  25,5" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="17" Grid.Row="21"/>
+                    <TextBlock Text="  26,3" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="18" Grid.Row="21"/>
+                    <TextBlock Text="  27,2" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="19" Grid.Row="21"/>
+                    <TextBlock Text="   28" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="20" Grid.Row="21"/>
+                    <TextBlock Text="  28,9" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="21" Grid.Row="21"/>
+                    <TextBlock Text="  29,7" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="22" Grid.Row="21"/>
+                    <TextBlock Text="  25,8" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="18" Grid.Row="22"/>
+                    <TextBlock Text="  26,6" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="19" Grid.Row="22"/>
+                    <TextBlock Text="  27,4" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="20" Grid.Row="22"/>
+                    <TextBlock Text="  28,3" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="21" Grid.Row="22"/>
+                    <TextBlock Text="  29,1" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="22" Grid.Row="22"/>
+                    <TextBlock Text="  29,9" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="23" Grid.Row="22"/>
+                    <TextBlock Text="  25,2" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="18" Grid.Row="23"/>
+                    <TextBlock Text="   26" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="19" Grid.Row="23"/>
+                    <TextBlock Text="  26,9" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="20" Grid.Row="23"/>
+                    <TextBlock Text="  27,7" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="21" Grid.Row="23"/>
+                    <TextBlock Text="  28,5" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="22" Grid.Row="23"/>
+                    <TextBlock Text="  29,3" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="23" Grid.Row="23"/>
+                    <TextBlock Text="  25,5" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="19" Grid.Row="24"/>
+                    <TextBlock Text="  26,3" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="20" Grid.Row="24"/>
+                    <TextBlock Text="  27,1" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="21" Grid.Row="24"/>
+                    <TextBlock Text="  27,9" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="22" Grid.Row="24"/>
+                    <TextBlock Text="  28,7" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="23" Grid.Row="24"/>
+                    <TextBlock Text="  29,5" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="24" Grid.Row="24"/>
+                    <TextBlock Text="  25,8" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="20" Grid.Row="25"/>
+                    <TextBlock Text="  26,6" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="21" Grid.Row="25"/>
+                    <TextBlock Text="  27,3" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="22" Grid.Row="25"/>
+                    <TextBlock Text="  28,1" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="23" Grid.Row="25"/>
+                    <TextBlock Text="  28,9" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="24" Grid.Row="25"/>
+                    <TextBlock Text="  29,7" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="25" Grid.Row="25"/>
+                    <TextBlock Text="  25,3" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="20" Grid.Row="26"/>
+                    <TextBlock Text="   26" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="21" Grid.Row="26"/>
+                    <TextBlock Text="  26,8" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="22" Grid.Row="26"/>
+                    <TextBlock Text="  27,5" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="23" Grid.Row="26"/>
+                    <TextBlock Text="  28,3" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="24" Grid.Row="26"/>
+                    <TextBlock Text="  29,1" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="25" Grid.Row="26"/>
+                    <TextBlock Text="  25,5" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="21" Grid.Row="27"/>
+                    <TextBlock Text="  26,3" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="22" Grid.Row="27"/>
+                    <TextBlock Text="   27" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="23" Grid.Row="27"/>
+                    <TextBlock Text="  27,8" FontSize="10" Background="#ffd7b8" Foreground="Black"
+                               Grid.Column="24" Grid.Row="27"/>
+                    <TextBlock Text="  31,2" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="11" Grid.Row="3"/>
+                    <TextBlock Text="  32,5" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="12" Grid.Row="3"/>
+                    <TextBlock Text="  33,8" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="13" Grid.Row="3"/>
+                    <TextBlock Text="  30,4" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="11" Grid.Row="4"/>
+                    <TextBlock Text="  31,6" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="12" Grid.Row="4"/>
+                    <TextBlock Text="  32,9" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="13" Grid.Row="4"/>
+                    <TextBlock Text="  34,2" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="14" Grid.Row="4"/>
+                    <TextBlock Text="  30,8" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="12" Grid.Row="5"/>
+                    <TextBlock Text="  32,1" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="13" Grid.Row="5"/>
+                    <TextBlock Text="  33,3" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="14" Grid.Row="5"/>
+                    <TextBlock Text="  34,5" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="15" Grid.Row="5"/>
+                    <TextBlock Text="  31,2" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="13" Grid.Row="6"/>
+                    <TextBlock Text="  32,4" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="14" Grid.Row="6"/>
+                    <TextBlock Text="  33,6" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="15" Grid.Row="6"/>
+                    <TextBlock Text="  34,9" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="16" Grid.Row="6"/>
+                    <TextBlock Text="  30,5" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="13" Grid.Row="7"/>
+                    <TextBlock Text="  31,6" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="14" Grid.Row="7"/>
+                    <TextBlock Text="  32,8" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="15" Grid.Row="7"/>
+                    <TextBlock Text="   34" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="16" Grid.Row="7"/>
+                    <TextBlock Text="  30,9" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="14" Grid.Row="8"/>
+                    <TextBlock Text="   32" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="15" Grid.Row="8"/>
+                    <TextBlock Text="  30,5" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="13" Grid.Row="7"/>
+                    <TextBlock Text="  30,1" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="14" Grid.Row="9"/>
+                    <TextBlock Text="  33,2" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="16" Grid.Row="8"/>
+                    <TextBlock Text="  34,3" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="17" Grid.Row="8"/>
+                    <TextBlock Text="  31,2" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="15" Grid.Row="9"/>
+                    <TextBlock Text="  32,3" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="16" Grid.Row="9"/>
+                    <TextBlock Text="  33,5" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="17" Grid.Row="9"/>
+                    <TextBlock Text="  34,6" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="18" Grid.Row="9"/>
+                    <TextBlock Text="  30,5" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="15" Grid.Row="10"/>
+                    <TextBlock Text="  31,6" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="16" Grid.Row="10"/>
+                    <TextBlock Text="  32,7" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="17" Grid.Row="10"/>
+                    <TextBlock Text="  33,7" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="18" Grid.Row="10"/>
+                    <TextBlock Text="  34,8" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="19" Grid.Row="10"/>
+                    <TextBlock Text="  30,7" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="16" Grid.Row="11"/>
+                    <TextBlock Text="  31,9" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="17" Grid.Row="11"/>
+                    <TextBlock Text="   33" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="18" Grid.Row="11"/>
+                    <TextBlock Text="   34" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="19" Grid.Row="11"/>
+                    <TextBlock Text="  30,1" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="16" Grid.Row="12"/>
+                    <TextBlock Text="  31,1" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="17" Grid.Row="12"/>
+                    <TextBlock Text="  32,2" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="18" Grid.Row="12"/>
+                    <TextBlock Text="  33,2" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="19" Grid.Row="12"/>
+                    <TextBlock Text="  30,4" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="17" Grid.Row="13"/>
+                    <TextBlock Text="  31,4" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="18" Grid.Row="13"/>
+                    <TextBlock Text="  32,4" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="19" Grid.Row="13"/>
+                    <TextBlock Text="  33,5" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="20" Grid.Row="13"/>
+                    <TextBlock Text="  34,5" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="21" Grid.Row="13"/>
+                    <TextBlock Text="  30,7" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="18" Grid.Row="14"/>
+                    <TextBlock Text="  31,7" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="19" Grid.Row="14"/>
+                    <TextBlock Text="  32,7" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="20" Grid.Row="14"/>
+                    <TextBlock Text="  33,7" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="21" Grid.Row="14"/>
+                    <TextBlock Text="  34,7" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="22" Grid.Row="14"/>
+                    <TextBlock Text="   30" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="18" Grid.Row="15"/>
+                    <TextBlock Text="   31" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="19" Grid.Row="15"/>
+                    <TextBlock Text="   32" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="20" Grid.Row="15"/>
+                    <TextBlock Text="  32,9" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="21" Grid.Row="15"/>
+                    <TextBlock Text="  33,9" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="22" Grid.Row="15"/>
+                    <TextBlock Text="  34,9" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="23" Grid.Row="15"/>
+                    <TextBlock Text="  30,3" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="19" Grid.Row="16"/>
+                    <TextBlock Text="  31,2" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="20" Grid.Row="16"/>
+                    <TextBlock Text="  32,2" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="21" Grid.Row="16"/>
+                    <TextBlock Text="  33,1" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="22" Grid.Row="16"/>
+                    <TextBlock Text="  34,1" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="23" Grid.Row="16"/>
+                    <TextBlock Text="  30,6" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="20" Grid.Row="17"/>
+                    <TextBlock Text="  31,5" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="21" Grid.Row="17"/>
+                    <TextBlock Text="  32,4" FontSize="10" Background="#f4f578"  Foreground="Black"
+                               Grid.Column="22" Grid.Row="17"/>
+                    <TextBlock Text="  33,3" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="23" Grid.Row="17"/>
+                    <TextBlock Text="  34,3" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="24" Grid.Row="17"/>
+                    <TextBlock Text="  30,8" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="21" Grid.Row="18"/>
+                    <TextBlock Text="  31,7" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="22" Grid.Row="18"/>
+                    <TextBlock Text="  32,6" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="23" Grid.Row="18"/>
+                    <TextBlock Text="  33,5" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="24" Grid.Row="18"/>
+                    <TextBlock Text="  34,4" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="25" Grid.Row="18"/>
+                    <TextBlock Text="  30,1" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="21" Grid.Row="19"/>
+                    <TextBlock Text="   31" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="22" Grid.Row="19"/>
+                    <TextBlock Text="  31,9" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="23" Grid.Row="19"/>
+                    <TextBlock Text="  32,8" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="24" Grid.Row="19"/>
+                    <TextBlock Text="  33,7" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="25" Grid.Row="19"/>
+                    <TextBlock Text="  30,4" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="22" Grid.Row="20"/>
+                    <TextBlock Text="  31,2" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="23" Grid.Row="20"/>
+                    <TextBlock Text="  32,1" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="24" Grid.Row="20"/>
+                    <TextBlock Text="   33" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="25" Grid.Row="20"/>
+                    <TextBlock Text="  30,6" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="23" Grid.Row="21"/>
+                    <TextBlock Text="  31,4" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="24" Grid.Row="21"/>
+                    <TextBlock Text="  32,3" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="25" Grid.Row="21"/>
+                    <TextBlock Text="  30,7" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="24" Grid.Row="22"/>
+                    <TextBlock Text="  31,6" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="25" Grid.Row="22"/>
+                    <TextBlock Text="  30,1" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="24" Grid.Row="23"/>
+                    <TextBlock Text="  30,9" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="25" Grid.Row="23"/>
+                    <TextBlock Text="  30,3" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="25" Grid.Row="24"/>
+                    <TextBlock Text="  35,1" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="14" Grid.Row="3"/>
+                    <TextBlock Text="  36,4" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="15" Grid.Row="3"/>
+                    <TextBlock Text="  37,7" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="16" Grid.Row="3"/>
+                    <TextBlock Text="   39" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="17" Grid.Row="3"/>
+                    <TextBlock Text="  35,4" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="15" Grid.Row="4"/>
+                    <TextBlock Text="  36,7" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="16" Grid.Row="4"/>
+                    <TextBlock Text="  37,9" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="17" Grid.Row="4"/>
+                    <TextBlock Text="  39,2" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="18" Grid.Row="4"/>
+                    <TextBlock Text="  35,7" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="16" Grid.Row="5"/>
+                    <TextBlock Text="   37" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="17" Grid.Row="5"/>
+                    <TextBlock Text="  38,2" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="18" Grid.Row="5"/>
+                    <TextBlock Text="  39,4" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="19" Grid.Row="5"/>
+                    <TextBlock Text="  36,1" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="17" Grid.Row="6"/>
+                    <TextBlock Text="  37,3" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="18" Grid.Row="6"/>
+                    <TextBlock Text="  38,5" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="19" Grid.Row="6"/>
+                    <TextBlock Text="  39,7" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="20" Grid.Row="6"/>
+                    <TextBlock Text="  35,2" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="17" Grid.Row="7"/>
+                    <TextBlock Text="  36,3" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="18" Grid.Row="7"/>
+                    <TextBlock Text="  37,5" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="19" Grid.Row="7"/>
+                    <TextBlock Text="  38,7" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="20" Grid.Row="7"/>
+                    <TextBlock Text="  39,8" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="21" Grid.Row="7"/>
+                    <TextBlock Text="  35,4" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="18" Grid.Row="8"/>
+                    <TextBlock Text="  36,6" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="19" Grid.Row="8"/>
+                    <TextBlock Text="  37,7" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="20" Grid.Row="8"/>
+                    <TextBlock Text="  38,9" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="21" Grid.Row="8"/>
+                    <TextBlock Text="   40" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="22" Grid.Row="8"/>
+                    <TextBlock Text="  35,7" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="19" Grid.Row="9"/>
+                    <TextBlock Text="  36,8" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="20" Grid.Row="9"/>
+                    <TextBlock Text="  37,9" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="21" Grid.Row="9"/>
+                    <TextBlock Text="   39" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="22" Grid.Row="9"/>
+                    <TextBlock Text="  35,9" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="20" Grid.Row="10"/>
+                    <TextBlock Text="   37" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="21" Grid.Row="10"/>
+                    <TextBlock Text="  38,1" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="22" Grid.Row="10"/>
+                    <TextBlock Text="  39,2" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="23" Grid.Row="10"/>
+                    <TextBlock Text="  35,1" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="20" Grid.Row="11"/>
+                    <TextBlock Text="  36,1" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="21" Grid.Row="11"/>
+                    <TextBlock Text="  37,2" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="22" Grid.Row="11"/>
+                    <TextBlock Text="  38,3" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="23" Grid.Row="11"/>
+                    <TextBlock Text="  39,3" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="24" Grid.Row="11"/>
+                    <TextBlock Text="  34,3" FontSize="10" Background="#f4f578" Foreground="Black"
+                               Grid.Column="20" Grid.Row="12"/>
+                    <TextBlock Text="  35,3" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="21" Grid.Row="12"/>
+                    <TextBlock Text="  36,3" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="22" Grid.Row="12"/>
+                    <TextBlock Text="  37,4" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="23" Grid.Row="12"/>
+                    <TextBlock Text="  38,4" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="24" Grid.Row="12"/>
+                    <TextBlock Text="  39,4" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="25" Grid.Row="12"/>
+                    <TextBlock Text="  35,5" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="22" Grid.Row="13"/>
+                    <TextBlock Text="  36,5" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="23" Grid.Row="13"/>
+                    <TextBlock Text="  37,5" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="24" Grid.Row="13"/>
+                    <TextBlock Text="  38,5" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="25" Grid.Row="13"/>
+                    <TextBlock Text="  35,7" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="23" Grid.Row="14"/>
+                    <TextBlock Text="  36,7" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="24" Grid.Row="14"/>
+                    <TextBlock Text="  37,7" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="25" Grid.Row="14"/>
+                    <TextBlock Text="  35,8" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="24" Grid.Row="15"/>
+                    <TextBlock Text="  36,8" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="25" Grid.Row="15"/>
+                    <TextBlock Text="   35" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="24" Grid.Row="16"/>
+                    <TextBlock Text="   36" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="25" Grid.Row="16"/>
+                    <TextBlock Text="  35,2" FontSize="10" Background="#ffa033" Foreground="Black"
+                               Grid.Column="25" Grid.Row="17"/>
+                    <TextBlock Text="  40,3" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="18" Grid.Row="3"/>
+                    <TextBlock Text="  41,6" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="19" Grid.Row="3"/>
+                    <TextBlock Text="  42,8" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="20" Grid.Row="3"/>
+                    <TextBlock Text="  44,1" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="21" Grid.Row="3"/>
+                    <TextBlock Text="  45,4" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="22" Grid.Row="3"/>
+                    <TextBlock Text="  46,7" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="23" Grid.Row="3"/>
+                    <TextBlock Text="   48" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="24" Grid.Row="3"/>
+                    <TextBlock Text="  49,3" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="25" Grid.Row="3"/>
+                    <TextBlock Text="  40,5" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="19" Grid.Row="4"/>
+                    <TextBlock Text="  41,7" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="20" Grid.Row="4"/>
+                    <TextBlock Text="   43" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="21" Grid.Row="4"/>
+                    <TextBlock Text="  44,3" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="22" Grid.Row="4"/>
+                    <TextBlock Text="  45,5" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="23" Grid.Row="4"/>
+                    <TextBlock Text="  46,8" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="24" Grid.Row="4"/>
+                    <TextBlock Text="  48,1" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="25" Grid.Row="4"/>
+                    <TextBlock Text="  40,7" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="20" Grid.Row="5"/>
+                    <TextBlock Text="  41,9" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="21" Grid.Row="5"/>
+                    <TextBlock Text="  43,1" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="22" Grid.Row="5"/>
+                    <TextBlock Text="  44,4" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="23" Grid.Row="5"/>
+                    <TextBlock Text="  45,6" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="24" Grid.Row="5"/>
+                    <TextBlock Text="  46,8" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="25" Grid.Row="5"/>
+                    <TextBlock Text="  40,9" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="21" Grid.Row="6"/>
+                    <TextBlock Text="  42,1" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="22" Grid.Row="6"/>
+                    <TextBlock Text="  43,3" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="23" Grid.Row="6"/>
+                    <TextBlock Text="  44,5" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="24" Grid.Row="6"/>
+                    <TextBlock Text="  45,7" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="25" Grid.Row="6"/>
+                    <TextBlock Text="   41" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="22" Grid.Row="7"/>
+                    <TextBlock Text="  42,2" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="23" Grid.Row="7"/>
+                    <TextBlock Text="  43,4" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="24" Grid.Row="7"/>
+                    <TextBlock Text="  44,5" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="25" Grid.Row="7"/>
+                    <TextBlock Text="  41,2" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="23" Grid.Row="8"/>
+                    <TextBlock Text="  42,3" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="24" Grid.Row="8"/>
+                    <TextBlock Text="  43,4" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="25" Grid.Row="8"/>
+                    <TextBlock Text="  40,2" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="23" Grid.Row="9"/>
+                    <TextBlock Text="  41,3" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="24" Grid.Row="9"/>
+                    <TextBlock Text="  42,4" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="25" Grid.Row="9"/>
+                    <TextBlock Text="  40,3" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="24" Grid.Row="10"/>
+                    <TextBlock Text="  41,4" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="25" Grid.Row="10"/>
+                    <TextBlock Text="  40,4" FontSize="10" Background="#ff5e5e" Foreground="Black"
+                               Grid.Column="25" Grid.Row="11"/>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+    </DockPanel>
+</Window>
